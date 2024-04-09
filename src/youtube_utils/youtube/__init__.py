@@ -23,7 +23,7 @@ class Youtube:
 
     # @see https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
     def watch_later(self):
-        yt = self.yt_dlp(
+        with self.yt_dlp(
             {
                 "extract_flat": "in_playlist",
                 "dump_single_json": True,
@@ -33,8 +33,8 @@ class Youtube:
                 "clean_infojson": True,
                 #    E.g. {'youtube': {'skip': ['dash', 'hls']}}
                 "extractor_args": {"youtubetab": {"approximate_date": [""]}},
-                "print": "ID: %(id)s %(title)s %(upload_date)s   %(view_count)s",
+                # "print": "ID: %(id)s %(title)s %(upload_date)s %(view_count)s",
             }
-        )
-        info = yt.extract_info(self.WATCH_LATER_URL, download=False)
-        return info
+        ) as yt:
+            info = yt.extract_info(self.WATCH_LATER_URL, download=False)
+            return info
