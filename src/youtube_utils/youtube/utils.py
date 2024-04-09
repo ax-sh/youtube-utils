@@ -5,7 +5,7 @@ from pathlib import Path
 
 def write_json(self, data):
     with self.open('w', encoding='utf-8') as w:
-        json.dump(data, w)
+        json.dump(data, w, indent=4)
 
 
 def read_json(self):

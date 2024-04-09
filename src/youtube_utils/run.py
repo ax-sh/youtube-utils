@@ -1,5 +1,11 @@
 from .youtube import Youtube, Path
 
+def process_entries(entry):
+    entry['thumbnails'] = ''
+    return entry
+
 def main():
     yt = Youtube('vivaldi')
-    Path('watch-later.json').write_json(yt.watch_later())
+    watch_later = yt.watch_later()
+    entries = map(process_entries,watch_later['entries'])
+    Path('watch-later.json').write_json()

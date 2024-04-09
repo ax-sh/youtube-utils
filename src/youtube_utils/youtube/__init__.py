@@ -28,6 +28,10 @@ class Youtube:
             'allow_unplayable_formats':True,
             "ignoreerrors": True,
             'progress_hooks': [progress_hook],
+            "no_warnings":True,
+            "clean_infojson":True,
+            "extractor_args":"youtubetab:approximate_date",
+            "print":"ID: %(id)s %(title)s %(upload_date)s   %(view_count)s"
         })
         info = yt.extract_info(self.WATCH_LATER_URL, download=False)
         return info
