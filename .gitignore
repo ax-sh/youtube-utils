@@ -9,3 +9,6 @@ wheels/
 # venv
 .venv
 .idea
+
+data.csv
+.cache/

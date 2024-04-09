@@ -1,7 +1,6 @@
 from .youtube import Youtube, Path
 import sqlite3
 import pandas as pd
-conn = sqlite3.connect('watch_later.db')
 
 def process_entries(entry):
     # {
@@ -34,15 +33,18 @@ def process_entries(entry):
             "duration": entry['duration'],
             "view_count": entry['view_count'],
             "thumbnail": thumb['url']
-            }
+    }
 
 def main():
     yt = Youtube('vivaldi')
-   
+    folder = Path('.cache')
+    
     watch_later = yt.watch_later()
     entries = list(map(process_entries,watch_later['entries']))
-    Path('watch-later.entries.json').write_json(watch_later)
+    raw = folder / 'watch-later.entries.json'
+    raw.write_json(watch_later)
     df = pd.DataFrame(entries)
     # df.to_csv('data.csv', index=False)
-    df.to_sql('watch_later_table', conn, if_exists='replace')
-    Path('watch-later.json').write_json(entries)
+    conn = sqlite3.connect(folder / 'watch_later.db')
+    df.to_sql( 'watch_later_table', conn, if_exists='replace')
+    (folder / 'watch-later.json').write_json(entries)
