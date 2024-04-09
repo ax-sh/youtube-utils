@@ -7,5 +7,5 @@ def process_entries(entry):
 def main():
     yt = Youtube('vivaldi')
     watch_later = yt.watch_later()
-    entries = map(process_entries,watch_later['entries'])
-    Path('watch-later.json').write_json()
+    entries = list(map(process_entries,watch_later['entries']))
+    Path('watch-later.json').write_json(entries)
