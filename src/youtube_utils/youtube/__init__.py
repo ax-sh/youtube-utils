@@ -31,9 +31,8 @@ class Youtube:
                 "ignoreerrors": True,
                 "no_warnings": True,
                 "clean_infojson": True,
-                #    E.g. {'youtube': {'skip': ['dash', 'hls']}}
+                #  E.g. {'youtube': {'skip': ['dash', 'hls']}}
                 "extractor_args": {"youtubetab": {"approximate_date": [""]}},
-                # "print": "ID: %(id)s %(title)s %(upload_date)s %(view_count)s",
             }
         ) as yt:
             info = yt.extract_info(self.WATCH_LATER_URL, download=False)
