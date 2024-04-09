@@ -60,7 +60,6 @@ class Youtube:
             "cookiesfrombrowser": self.cookies_from_browser,
         }
         options.update(updated_options)
-        print(options)
         return YoutubeDL(options)
 
     # @see https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
