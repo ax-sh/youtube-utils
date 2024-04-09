@@ -21,16 +21,18 @@ class Youtube:
         options.update(updated_options)
         print(options)
         return YoutubeDL(options)
-    
+    # @see https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
     def watch_later(self):
         yt = self.yt_dlp({
-            "extract_flat": True,
+            "extract_flat": 'in_playlist',
+            "dump_single_json":True,
             'allow_unplayable_formats':True,
             "ignoreerrors": True,
             'progress_hooks': [progress_hook],
             "no_warnings":True,
             "clean_infojson":True,
-            "extractor_args":"youtubetab:approximate_date",
+            #    E.g. {'youtube': {'skip': ['dash', 'hls']}}
+           'extractor_args': {'youtubetab': {'approximate_date': ['']}},
             "print":"ID: %(id)s %(title)s %(upload_date)s   %(view_count)s"
         })
         info = yt.extract_info(self.WATCH_LATER_URL, download=False)
