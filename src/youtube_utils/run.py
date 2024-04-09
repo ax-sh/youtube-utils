@@ -1,15 +1,12 @@
-from .youtube import Youtube, Path
+from . import Youtube, Path
 import sqlite3
 import pandas as pd
 
 
 def process_entries(entry):
     # {
-
-    #     "id": "2wlXszWz_Uc",
-
     #     "description": null,
-    #     "duration": 587,
+
     #     "channel_id": "UCNTVzV1InxHV-YR0fSajqPQ",
 
     #     "channel_url": "https://www.youtube.com/channel/UCNTVzV1InxHV-YR0fSajqPQ",
@@ -30,6 +27,7 @@ def process_entries(entry):
         "url": entry["url"],
         "upload_date": entry["timestamp"],
         "channel": entry["channel"],
+        "channel_url": entry["channel_url"],
         "title": entry["title"],
         "duration": entry["duration"],
         "view_count": entry["view_count"],
