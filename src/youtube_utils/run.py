@@ -1,5 +1,5 @@
-from .youtube import Youtube
+from .youtube import Youtube, Path
 
 def main():
     yt = Youtube('vivaldi')
-    print(yt)
+    Path('watch-later.json').write_json(yt.watch_later())
