@@ -9,7 +9,6 @@ def process_entries(entry):
 
     #     "channel_id": "UCNTVzV1InxHV-YR0fSajqPQ",
 
-    #     "channel_url": "https://www.youtube.com/channel/UCNTVzV1InxHV-YR0fSajqPQ",
     #     "uploader": "Supabase",
     #     "uploader_id": "@Supabase",
     #     "uploader_url": "https://www.youtube.com/@Supabase",
