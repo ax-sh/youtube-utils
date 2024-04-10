@@ -1,6 +1,6 @@
 from yt_dlp import YoutubeDL
 from .utils import Path
-
+import youtube_unofficial 
 
 class WatchLater:
     def __init__(self, data):
@@ -57,10 +57,13 @@ class Youtube:
 
     def yt_dlp(self, updated_options):
         options = {
-            "cookiesfrombrowser": self.cookies_from_browser,
+            "cookiesfrombrowser": self.cookies_from_browser
         }
         options.update(updated_options)
         return YoutubeDL(options)
+    
+    def make_api_with_session(self):
+        return youtube_unofficial.YouTube
 
     # @see https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
     def watch_later(self):
