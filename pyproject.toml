@@ -9,6 +9,8 @@ dependencies = [
     "yt-dlp>=2024.3.10",
     "pandas>=2.2.1",
     "google-api-python-client>=2.125.0",
+    "youtube-unofficial @ git+https://github.com/Tatsh/youtube-unofficial/",
+    "typing-extensions>=4.11.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
