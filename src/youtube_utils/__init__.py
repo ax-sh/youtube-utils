@@ -1,6 +1,6 @@
 from yt_dlp import YoutubeDL
 from .utils import Path
-import youtube_unofficial 
+import youtube_unofficial
 
 class WatchLater:
     def __init__(self, data):
@@ -55,7 +55,7 @@ class Youtube:
     def __repr__(self):
         return self.browser
 
-    def yt_dlp(self, updated_options):
+    def yt_dlp(self, updated_options={}):
         options = {
             "cookiesfrombrowser": self.cookies_from_browser
         }
@@ -63,7 +63,11 @@ class Youtube:
         return YoutubeDL(options)
     
     def make_api_with_session(self):
-        return youtube_unofficial.YouTube
+        cookies = self.yt_dlp().cookiejar
+        api = ''
+        # api = youtube_unofficial.YouTube(cookiejar_cls=cookies, logged_in=True)
+       
+        return api
 
     # @see https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
     def watch_later(self):
@@ -79,5 +83,11 @@ class Youtube:
                     "extractor_args": {"youtubetab": {"approximate_date": [""]}},
                 }
         ) as yt:
+            
+            # api = self.make_api_with_session()
+            # video_id = 'QQPz3eXXgQI'
+            # api.login()
+            # api.remove_video_id_from_playlist('WL', video_id)
+            # exit()
             info = yt.extract_info(self.WATCH_LATER_URL, download=False)
             return WatchLater(info)
