@@ -12,6 +12,8 @@ beautifulsoup4==4.12.3
     # via youtube-unofficial
 brotli==1.1.0
     # via yt-dlp
+browser-cookie3==0.19.1
+    # via youtube-utils
 cachetools==5.3.3
     # via google-auth
 certifi==2024.2.2
@@ -38,6 +40,8 @@ httplib2==0.22.0
     # via google-auth-httplib2
 idna==3.6
     # via requests
+lz4==4.3.3
+    # via browser-cookie3
 mutagen==1.47.0
     # via yt-dlp
 numpy==1.26.4
@@ -56,6 +60,7 @@ pyasn1==0.6.0
 pyasn1-modules==0.4.0
     # via google-auth
 pycryptodomex==3.20.0
+    # via browser-cookie3
     # via yt-dlp
 pyparsing==3.1.2
     # via httplib2
@@ -66,6 +71,7 @@ pytz==2024.1
 requests==2.31.0
     # via google-api-core
     # via youtube-unofficial
+    # via youtube-utils
     # via yt-dlp
 rsa==4.9
     # via google-auth
