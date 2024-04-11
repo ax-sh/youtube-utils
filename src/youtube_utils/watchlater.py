@@ -10,8 +10,6 @@ class WatchLater:
         # {
         #     "description": null,
 
-        #     "channel_id": "UCNTVzV1InxHV-YR0fSajqPQ",
-
         #     "uploader": "Supabase",
         #     "uploader_id": "@Supabase",
         #     "uploader_url": "https://www.youtube.com/@Supabase",
@@ -30,6 +28,7 @@ class WatchLater:
             "upload_date": entry["timestamp"],
             "channel": entry["channel"],
             "channel_url": entry["channel_url"],
+            "channel_id": entry["channel_id"],
             "title": entry["title"],
             "duration": entry["duration"],
             "view_count": entry["view_count"],
