@@ -1,48 +1,9 @@
-from yt_dlp import YoutubeDL
+from yt_dlp import YoutubeDL, postprocessor
+
+from .logger import YoutubeUtilsLogger
 from .utils import Path
 
-
-class WatchLater:
-    def __init__(self, data):
-        self.data = data
-
-    def raw_data(self):
-        return self.data
-
-    @staticmethod
-    def process_entry(entry):
-        # {
-        #     "description": null,
-
-        #     "channel_id": "UCNTVzV1InxHV-YR0fSajqPQ",
-
-        #     "uploader": "Supabase",
-        #     "uploader_id": "@Supabase",
-        #     "uploader_url": "https://www.youtube.com/@Supabase",
-
-        #     "release_timestamp": null,
-        #     "availability": null,
-
-        #     "live_status": null,
-        #     "channel_is_verified": null,
-        #     "__x_forwarded_for_ip": null
-        # },
-        thumb = max(entry["thumbnails"], key=lambda x: x["height"] * x["width"])
-        return {
-            "id": entry["id"],
-            "url": entry["url"],
-            "upload_date": entry["timestamp"],
-            "channel": entry["channel"],
-            "channel_url": entry["channel_url"],
-            "title": entry["title"],
-            "duration": entry["duration"],
-            "view_count": entry["view_count"],
-            "thumbnail": thumb["url"],
-        }
-
-    def items(self):
-        return list(map(self.process_entry, self.data["entries"]))
-
+from .watchlater import WatchLater
 
 class Youtube:
     WATCH_LATER_URL = "https://www.youtube.com/playlist?list=WL"
@@ -55,26 +16,45 @@ class Youtube:
     def __repr__(self):
         return self.browser
 
-    def yt_dlp(self, updated_options):
+    def yt_dlp(self, updated_options=None):
+        if updated_options is None:
+            updated_options = {}
         options = {
-            "cookiesfrombrowser": self.cookies_from_browser,
+            "cookiesfrombrowser": self.cookies_from_browser
         }
         options.update(updated_options)
         return YoutubeDL(options)
+    
+    def make_api_with_session(self):
+        cookies = self.yt_dlp().cookiejar
+        api = ''
+
+        # api = self.make_api_with_session()
+        # video_id = 'QQPz3eXXgQI'
+        # api.login()
+        # api.remove_video_id_from_playlist('WL', video_id)
+        # exit()
+        # api = youtube_unofficial.YouTube(cookiejar_cls=cookies, logged_in=True)
+       
+        return api
 
     # @see https://github.com/yt-dlp/yt-dlp/blob/master/yt_dlp/YoutubeDL.py
-    def watch_later(self):
+    def watch_later(self, postprocessor=None):
         with self.yt_dlp(
                 {
                     "extract_flat": "in_playlist",
                     "dump_single_json": True,
                     "allow_unplayable_formats": True,
-                    "ignoreerrors": True,
+                    "ignoreerrors": False,
                     "no_warnings": True,
                     "clean_infojson": True,
+                    "lazy_playlist": True,
+                    'logger': YoutubeUtilsLogger(),
                     #  E.g. {'youtube': {'skip': ['dash', 'hls']}}
                     "extractor_args": {"youtubetab": {"approximate_date": [""]}},
                 }
         ) as yt:
+            if postprocessor is not None:
+                yt.add_post_processor(postprocessor, when='pre_process')
             info = yt.extract_info(self.WATCH_LATER_URL, download=False)
             return WatchLater(info)

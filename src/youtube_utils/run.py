@@ -1,3 +1,5 @@
+from yt_dlp import postprocessor
+
 from . import Youtube, Path
 import sqlite3
 import pandas as pd
@@ -34,12 +36,21 @@ import pandas as pd
 # if __name__ == "__main__":
 #     start()
 
+# ℹ️ See help(yt_dlp.postprocessor.PostProcessor)
+class YoutubeUtilPP(postprocessor.PostProcessor):
+    def run(self, info):
+        # self.to_screen('Doing stuff')
+
+        info['foooo'] = 66
+        print(info['title'])
+        return [], info
+
 
 def main():
     yt = Youtube("vivaldi")
     folder = Path(".cache")
 
-    watch_later = yt.watch_later()
+    watch_later = yt.watch_later(YoutubeUtilPP())
     entries = watch_later.items()
     raw = folder / "watch-later.entries.json"
     raw.write_json(watch_later.raw_data())
