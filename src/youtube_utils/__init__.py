@@ -1,8 +1,16 @@
-from yt_dlp import YoutubeDL
+from yt_dlp import YoutubeDL, postprocessor
+
+from .logger import YoutubeUtilsLogger
 from .utils import Path
 
 from .watchlater import WatchLater
-
+from pprint import pprint
+# ℹ️ See help(yt_dlp.postprocessor.PostProcessor)
+class YoutubeUtilPP(postprocessor.PostProcessor):
+    def run(self, info):
+        # self.to_screen('Doing stuff')
+        pprint(info)
+        return [], info
 
 class Youtube:
     WATCH_LATER_URL = "https://www.youtube.com/playlist?list=WL"
@@ -36,9 +44,12 @@ class Youtube:
                     "extract_flat": "in_playlist",
                     "dump_single_json": True,
                     "allow_unplayable_formats": True,
-                    "ignoreerrors": True,
+                    "ignoreerrors": False,
                     "no_warnings": True,
                     "clean_infojson": True,
+                    "lazy_playlist":True,
+
+                    'logger': YoutubeUtilsLogger(),
                     #  E.g. {'youtube': {'skip': ['dash', 'hls']}}
                     "extractor_args": {"youtubetab": {"approximate_date": [""]}},
                 }
@@ -49,5 +60,6 @@ class Youtube:
             # api.login()
             # api.remove_video_id_from_playlist('WL', video_id)
             # exit()
+            # yt.add_post_processor(YoutubeUtilPP(), when='pre_process')
             info = yt.extract_info(self.WATCH_LATER_URL, download=False)
             return WatchLater(info)
